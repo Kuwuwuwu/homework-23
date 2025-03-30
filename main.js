@@ -19,15 +19,21 @@ class CalorieCalculator {
     this.products = new Map();
   }
 
-  addProduct() {
-    if (typeof productName !== 'string' || typeof calories !== 'number' || calories < 0) {
-      throw new Error('Invalid input: productName should be a string and calories should be a non-negative number');
+  addProduct(productName, calories) {
+    if (typeof productName !== 'string' || !productName.trim()) {
+      throw new Error('Invalid input: productName should be a non-empty string');
+    }
+    if (typeof calories !== 'number' || calories < 0 || !Number.isFinite(calories)) {
+      throw new Error('Invalid input: calories should be a non-negative finite number');
     }
     this.products.set(productName, calories);
   }
 
   getProductCalories(productName) {
-    return this.products.has(productName) ? this.products.get(productName) : 'Product not found';
+    if (!this.products.has(productName)) {
+      return 'Product not found';
+    }
+    return this.products.get(productName);
   }
 
   removeProduct(productName) {
@@ -35,8 +41,20 @@ class CalorieCalculator {
       return 'Product not found';
     }
     this.products.delete(productName);
+    return `${productName} removed successfully`;
   }
 }
+
+// Приклад використання
+const calculator = new CalorieCalculator();
+calculator.addProduct('Cucumber', 16);
+calculator.addProduct('Pepper', 20);
+calculator.addProduct('Onion', 40);
+calculator.addProduct('Tomato', 18);
+calculator.addProduct('Potato', 77);
+console.log(calculator.getProductCalories('Cucumber')); // Виведе 16
+console.log(calculator.removeProduct('Pepper')); // Виведе 'Pepper removed successfully'
+console.log(calculator.getProductCalories('Pepper')); // Виведе 'Product not found'
 
 // Демонстрація використання
 // const calorieCalculator = new CalorieCalculator()

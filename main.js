@@ -45,7 +45,6 @@ class CalorieCalculator {
   }
 }
 
-// Приклад використання
 const calculator = new CalorieCalculator();
 calculator.addProduct('Cucumber', 16);
 calculator.addProduct('Pepper', 20);
